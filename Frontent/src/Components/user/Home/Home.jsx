@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "../../../Axios/axiosAuth";
 import { toast } from "sonner";
-import { userLogout } from "../../../Redux/userSlice";
+import { userLogout } from "../../../Redux/user/userSlice";
 import userAuthRedirect from "../../../Hooks/userAuthredirect";
+import { getProfile } from "../../../Redux/user/userThunk";
 
 const Home = () => {
   userAuthRedirect();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { userToken } = useSelector((state) => state.user);
-  const [userData, setUserData] = useState({});
+  const { userData } = useSelector((state) => state.user);
 
   const fetchProfile = async () => {
     try {
-      const { data } = await axios.get("/my-profile");
-      setUserData(data.userDetails);
+      await dispatch(getProfile())
     } catch (error) {
       toast.error(error.response.data.message);
       if (error.response?.status === 401) {
@@ -24,9 +22,10 @@ const Home = () => {
       }
     }
   };
+
   useEffect(() => {
     fetchProfile();
-  }, []);
+  },[]);
 
   return (
     <div className="p-16 flex items-center justify-center min-h-screen">
@@ -40,7 +39,7 @@ const Home = () => {
           </button>
           <div>
             <div className="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-md  inset-x-0 top-0 -mt-24 flex items-center overflow-hidden justify-center text-indigo-500">
-              {userData.profileUrl ? (
+              {userData?.profileUrl ? (
                 <img
                   src={`/images/${userData.profileUrl}`}
                   alt="Profile"

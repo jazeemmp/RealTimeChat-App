@@ -1,25 +1,32 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import React from "react";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { LoginScehema } from "../../../Formik/validationSchema";
-import { adminLogin } from "../../../Redux/adminSlice";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import adminAuthRedirect from "../../../Hooks/adminAuthredirect";
+import { adminLogin } from "../../../Redux/admin/adminThuk";
 
 const AdminLogin = () => {
-  adminAuthRedirect();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async (values) => {
-    const resultAction = await dispatch(adminLogin(values));
-    if (adminLogin.fulfilled.match(resultAction)) {
+  const { adminToken } = useSelector((state) => state.admin);
+  useEffect(() => {
+    if (adminToken) {
       navigate("/admin/dashboard");
-    } else {
-      console.error("Login failed:", resultAction.payload);
+    }
+  }, []);
+
+  const handleSubmit = async (values) => {
+    try {
+      await dispatch(adminLogin(values)).unwrap();
+      toast.success("Login successful");
+      navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error(error);
     }
   };
-  
+
   return (
     <div>
       <section className="fixed left-0 top-0 h-screen w-screen z-10">
@@ -84,11 +91,7 @@ const AdminLogin = () => {
                     login
                   </button>
 
-                  <p
-                    className="text-sm font-light text-center text-gray-500 dark:text-gray-400"
-                    onClick={() => setChangeAuth("signup")}
-                  >
-                    Don’t have an account yet?{" "}
+                  <p className="text-sm font-light text-center text-gray-500 dark:text-gray-400">
                     <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                       Sign up
                     </span>

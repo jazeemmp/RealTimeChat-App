@@ -31,13 +31,15 @@ const postLogin = async (req, res) => {
     const user = await UserDB.findOne({ email: email });
 
     if (!user) {
-      return res.status(404).json({ message: "User does not exist" });
+      return res.status(404).json({ message: "User not found" });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Invalid password" });
     }
-
+    if (user.isBlocked) {
+      return res.status(403).json({ message: "Your account is blocked. Please contact the admin." });
+    }
     const userData = {
       id: user._id,
       name: user.name,

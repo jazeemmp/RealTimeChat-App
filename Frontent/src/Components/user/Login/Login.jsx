@@ -1,25 +1,30 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Signup from "../Signup/Signup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { LoginScehema } from "../../../Formik/validationSchema";
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin } from "../../../Redux/userSlice";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { userLogin } from "../../../Redux/user/userThunk";
 const Login = () => {
   const [changeAuth, setChangeAuth] = useState("login");
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const { loading,} = useSelector((state) => state.user);
- const handleSubmit = async (values) => {
-  try {
-    await dispatch(userLogin(values)).unwrap();
-    toast.success("Login successful")
-    navigate('/')
-  } catch (error) {
-    toast.error("Login failed: " + error);
-  }
-};
+  const navigate = useNavigate();
+  const { userToken } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (userToken) {
+      navigate("/");
+    }
+  }, []);
+  const handleSubmit = async (values) => {
+    try {
+      await dispatch(userLogin(values)).unwrap();
+      toast.success("Login successful");
+      navigate("/");
+    } catch (error) {
+      toast.error("Login failed: " + error);
+    }
+  };
   return (
     <section className="fixed left-0 top-0 h-screen w-screen z-10">
       <div className="flex flex-col bg-transparent items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -80,9 +85,8 @@ const Login = () => {
                   <button
                     type="submit"
                     className="w-full bg-blue-600 rounded-lg p-3 hover:bg-blue-500"
-                    disabled={loading}
                   >
-                    {loading ? 'Logging in...' : 'Login'}
+                    Login
                   </button>
 
                   <p
@@ -90,9 +94,7 @@ const Login = () => {
                     onClick={() => setChangeAuth("signup")}
                   >
                     Don’t have an account yet?{" "}
-                    <span
-                      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                    >
+                    <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                       Sign up
                     </span>
                   </p>

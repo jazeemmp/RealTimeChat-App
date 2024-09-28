@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFormik } from "formik";
 import axios from "../../../Axios/axiosAuth";
 import Camera from "../../../assets/CameraIcon";
@@ -11,24 +11,15 @@ import userAuthRedirect from "../../../Hooks/userAuthredirect";
 const EditProfile = () => {
   userAuthRedirect(); //hook to check user logined or not
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const fetchData = async () => {
-    try {
-      const { data } = await axios.get("/edit-profile");
-      setUserData(data.userDetails);
-    } catch (error) {
-      console.error("Error fetching data", error);
-    }
-  };
-
+  const { userData } = useSelector((state) => state.user);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      age: "",
-      job: "",
-      address: "",
-      about: "",
+      name: userData.name || "",
+      age: userData.age || "",
+      job: userData.job || "",
+      address: userData.address || "",
+      about: userData.about || "",
       profile: null,
     },
     validationSchema: EditProfileSchema,
@@ -48,22 +39,6 @@ const EditProfile = () => {
       }
     },
   });
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (userData) {
-      formik.setValues({
-        name: userData.name || "",
-        age: userData.age || "",
-        job: userData.job || "",
-        address: userData.address || "",
-        about: userData.about || "",
-      });
-    }
-  }, [userData]);
 
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
@@ -89,11 +64,11 @@ const EditProfile = () => {
             <div className="mx-auto flex justify-center w-[141px] h-[141px]">
               <img
                 src={
-                  imagePreview 
-                    ? imagePreview 
-                    : userData?.profileUrl 
+                  imagePreview
+                    ? imagePreview
+                    : userData?.profileUrl
                     ? `/images/${userData.profileUrl}`
-                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" 
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
                 }
                 alt="Profile"
                 className="w-full h-full object-cover rounded-full"

@@ -9,10 +9,8 @@ const adminAuthRedirect = () => {
   useEffect(() => {
     if (!adminToken) {
       navigate('/admin/login');
-    }else{
-      navigate('/admin/dashboard')
     }
-  }, [adminToken, navigate]);
+  }, [adminToken]);
 };
 
 export default adminAuthRedirect;
