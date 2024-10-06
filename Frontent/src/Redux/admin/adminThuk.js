@@ -7,8 +7,10 @@ export const adminLogin = createAsyncThunk(
     try {
       const { data } = await axios.post("/login", credentials);
       return data;
-    } catch (error) {
-      const { data } = await axios.get("/my-profile");
+    }catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "An error occurred."
+      );
     }
   }
 );

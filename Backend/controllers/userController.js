@@ -100,10 +100,24 @@ const postEditProfile = async (req, res) => {
     res.status(500).json({ message: "An unexpected error occurred" });
   }
 };
+
+const getDetails = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await UserDB.findOne({ _id: userId }).lean();  // Get a plain object directly
+    delete user.password;  // Remove the password field
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "An unexpected error occurred" });
+  }
+};
+
 module.exports = {
   postSignup,
   postLogin,
   getProfile,
   getEditProfile,
   postEditProfile,
+  getDetails
 };

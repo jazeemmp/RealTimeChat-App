@@ -9,6 +9,8 @@ const app = express()
 //Importing routes
 const userRouter = require('./Routes/user')
 const adminRouter = require('./Routes/admin')
+const chatRouter = require('./Routes/chat')
+const messageRouter = require('./Routes/message')
 //mongo db connection
 connectDB()
 // Use JSON middleware
@@ -20,6 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/',userRouter)
 app.use('/admin',adminRouter)
+app.use('/api/chat',chatRouter)
+app.use('/api/message',messageRouter)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

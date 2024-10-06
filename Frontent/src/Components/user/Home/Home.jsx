@@ -3,11 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { userLogout } from "../../../Redux/user/userSlice";
-import userAuthRedirect from "../../../Hooks/userAuthredirect";
 import { getProfile } from "../../../Redux/user/userThunk";
 
 const Home = () => {
-  userAuthRedirect();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);

@@ -7,6 +7,7 @@ const { authorizeToken } = require("../Utiils/jwt");
 router.post("/signup", userController.postSignup);
 router.post("/login", userController.postLogin);
 router.get("/my-profile", authorizeToken, userController.getProfile);
+router.get('/get-user/:userId' ,userController.getDetails)
 router
   .route("/edit-profile")
   .get(authorizeToken, userController.getEditProfile)

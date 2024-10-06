@@ -6,10 +6,8 @@ import { EditProfileSchema } from "../../../Formik/validationSchema";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useSelector } from "react-redux";
-import userAuthRedirect from "../../../Hooks/userAuthredirect";
 
 const EditProfile = () => {
-  userAuthRedirect(); //hook to check user logined or not
   const navigate = useNavigate();
   const [imagePreview, setImagePreview] = useState(null);
   const { userData } = useSelector((state) => state.user);

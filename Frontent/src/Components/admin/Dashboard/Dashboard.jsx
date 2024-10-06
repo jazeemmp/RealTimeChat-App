@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "../../../Axios/adminAxios";
 import { toast } from "sonner";
-import adminAuthRedirect from "../../../Hooks/adminAuthredirect";
 import { adminLogout} from "../../../Redux/admin/adminSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchUsers } from "../../../Redux/admin/adminThuk";
 
 const Dashboard = () => {
-  adminAuthRedirect();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const  {users} = useSelector((state) => state.admin);
@@ -22,7 +20,7 @@ const Dashboard = () => {
         navigate("/admin/login");
       }
       console.error("Error fetching users:", error);
-      toast.error(error);
+      toast.error(error.message || "An error occurred while fetching users");
     }
   };
   const handleBlockUser = async (id) => {
@@ -32,7 +30,7 @@ const Dashboard = () => {
       toast.success(data.message);
     } catch (error) {
       console.error("Error blocking user:", error);
-      toast.error("Failed to block user.");
+      toast.error(error.message || "Failed to block user.");
     }
   };
 

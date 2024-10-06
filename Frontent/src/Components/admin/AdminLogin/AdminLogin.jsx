@@ -22,6 +22,7 @@ const AdminLogin = () => {
       toast.success("Login successful");
       navigate("/admin/dashboard");
     } catch (error) {
+      navigate('/admin/login')
       console.error("Login failed:", error);
       toast.error(error);
     }
