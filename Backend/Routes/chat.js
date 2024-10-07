@@ -5,7 +5,7 @@ const {
   userChats,
   findChat,
   getUsers,
-} = require("../Controllers/chatController");
+} = require("../controllers/chatController");
 const { authorizeToken } = require("../Utiils/jwt");
 
 router.use(authorizeToken)

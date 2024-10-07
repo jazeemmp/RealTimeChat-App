@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const adminController = require("../Controllers/adminController");
+const adminController = require("../controllers/adminController");
 const {authorizeToken} = require('../Utiils/jwt')
 
 router.post('/login',adminController.postLogin)
