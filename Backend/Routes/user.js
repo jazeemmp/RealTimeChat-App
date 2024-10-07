@@ -1,16 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const userController = require("../Controllers/userController");
-const upload = require('../Config/multer')
+const {
+  postSignup,
+  postLogin,
+  getProfile,
+  getDetails,
+  getEditProfile,
+  postEditProfile,
+} = require("../Controllers/userController");
+const upload = require("../Config/multer");
 const { authorizeToken } = require("../Utiils/jwt");
 
-router.post("/signup", userController.postSignup);
-router.post("/login", userController.postLogin);
-router.get("/my-profile", authorizeToken, userController.getProfile);
-router.get('/get-user/:userId' ,userController.getDetails)
+router.post("/signup", postSignup);
+router.post("/login", postLogin);
+router.get("/my-profile", authorizeToken, getProfile);
+router.get("/get-user/:userId", getDetails);
 router
   .route("/edit-profile")
-  .get(authorizeToken, userController.getEditProfile)
-  .post(authorizeToken, upload.single('profile'), userController.postEditProfile);
+  .get(authorizeToken, getEditProfile)
+  .post(authorizeToken, upload.single("profile"), postEditProfile);
 
 module.exports = router;
