@@ -67,13 +67,14 @@ const getUsers = async (req, res) => {
     return res.status(400).json({ message: "Search query is required" });
   }
   try {
+    const regexQuery = new RegExp(`^${userSearchQuery}`, "i");
+    // Search both 'name' and 'email' fields using $or
     const users = await UserDB.find({
-      name: { $regex: userSearchQuery, $options: "i" },
+      $or: [
+        { name: { $regex: regexQuery, $ne: "" } }, // Ensure name is not empty
+        { email: { $regex: regexQuery, $ne: "" } }, // Ensure email is not empty
+      ],
     });
-
-    if (users.length === 0) {
-      return res.status(404).json({ message: "No users found" });
-    }
     res.status(200).json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
