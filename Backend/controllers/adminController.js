@@ -1,6 +1,6 @@
 const UserDB = require("../Model/userModel");
 const AdminDB = require('../Model/adminModel')
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs')
 const { generateToken, generateAdminToken } = require("../Utiils/jwt");
 
 const getAllUsers = async (req, res) => {
