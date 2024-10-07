@@ -7,7 +7,7 @@ const {
   getDetails,
   getEditProfile,
   postEditProfile,
-} = require("../Controllers/userController.js");
+} = require("../controllers/userController.js");
 const upload = require("../Config/multer");
 const { authorizeToken } = require("../Utiils/jwt");
 
