@@ -1,5 +1,4 @@
 // =====================User Side===================
-export {default as Home} from './user/Home/Home'
 export {default as Login} from './user/Login/Login'
 export {default as EditProfile} from './user/EditProfile/EditProfile'
 // =====================Admin Side===================

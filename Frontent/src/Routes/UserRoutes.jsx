@@ -1,6 +1,7 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import { Home, EditProfile, Login } from "../Components";
+import {  EditProfile, Login } from "../Components";
 import ChatPage from "../pages/ChatPage";
+import Profile from "../Components/user/Profile/Profile";
 
 const UserRoutes = () => {
   return (
@@ -8,7 +9,7 @@ const UserRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<ChatPage />} />
-        <Route path="/profile" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/edit-profile" element={<EditProfile />} />
       </Route>
     </Routes>

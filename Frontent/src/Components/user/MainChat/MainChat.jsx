@@ -10,7 +10,12 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
-const MainChat = ({currentChat,currentUser,receivedMessage,setSendMessage,}) => {
+const MainChat = ({
+  currentChat,
+  currentUser,
+  receivedMessage,
+  setSendMessage,
+}) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
@@ -35,7 +40,7 @@ const MainChat = ({currentChat,currentUser,receivedMessage,setSendMessage,}) => 
   useEffect(() => {
     const fetchCurrentMessage = async () => {
       const { data } = await axios.get(`/api/message/${currentChat._id}`);
-      setMessages(data)
+      setMessages(data);
     };
     fetchCurrentMessage();
   }, [currentChat]);
@@ -114,14 +119,15 @@ const MainChat = ({currentChat,currentUser,receivedMessage,setSendMessage,}) => 
           </div>
         </ScrollToBottom>
 
-        <footer className="bg-white rounded-full  border-gray-300 p-3 fixed bottom-3  w-[70%] ml-6">
+       <div className="flex  justify-center">
+       <footer className="bg-white rounded-full border-gray-300 p-3 fixed bottom-3 w-full xl:w-4/6 ">
           <form onSubmit={handleSend} className="flex items-center">
             <input
               value={newMessage}
               type="text"
               placeholder="Type a message..."
               onChange={(e) => setNewMessage(e.target.value)}
-              className="w-full p-2 border-0 rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full p-2 outline-none border-0 rounded-md "
             />
             <button
               type="submit"
@@ -134,6 +140,7 @@ const MainChat = ({currentChat,currentUser,receivedMessage,setSendMessage,}) => 
             </button>
           </form>
         </footer>
+       </div>
       </div>
     </>
   );
